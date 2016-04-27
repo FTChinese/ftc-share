@@ -23,7 +23,7 @@
 			text-decoration: none;
 			padding: $o-share-link-padding;
 			margin: 0;
-			border-radius: 3px;
+			border-radius: 50%;
 		}
 		i {
 			float: left;
@@ -56,26 +56,54 @@
 // group1 - $color: 'white', $bgcolor: 'grey-tint1', $bghovercolor: $name
 // group2 - $color: 'white', $bgcolor: 'grey-tint1', $bghovercolor: 'teal-2'
 // group3 - $color: 'pink-tint4', $bgcolor: 'transparent', $bghovercolor: 'pink-tint2'
+@mixin oShareIconFor($name, $theme, $propertyList: all) {
+	$fill-color: oColorsGetPaletteColor($name);
+	$fill-color: oColorsGetPaletteColor($name);
+	$hover-color: oColorsGetPaletteColor($name);
 
-@mixin oShareActionIcon($name, $color:'white', $bgcolor:$name,$bghovercolor: false, $classname: o-share) {
-
-	$fill-color: if((type-of($color) == "string"), oColorsGetPaletteColor($color), $color);
-
-	$bg-color: if((type-of($bgcolor) == "string"), oColorsGetPaletteColor($bgcolor), $bgcolor);
-	
-	@if ($bghovercolor) {
-		$bg-hover-color: if((type-of($bghovercolor) == "string"), oColorsGetPaletteColor($bghovercolor), $bghovercolor)	
+	@if ($propertyList == 'all' or index($propertyList, 'fill')) {
+		$fill-color: oShareGetColorFor($theme, fill);
 	}
+	@if ($propertyList == 'all' or index($propertyList, 'bg')) {
+		$bg-color: oShareGetColorFor($theme, bg);
+	}
+	@if ($propertyList == 'all' or index($propertyList, 'hover')) {
+		$hover-color: oShareGetColorFor($theme, hover);
+	}
+	@debug '#{$fill-color}';
+	@debug '#{$bg-color}';
+	@debug '#{$hover-color}';
+
+	.o-share__action--#{$name} {
+		a {	
+			background-color: $bg-color;
+			&:hover {
+				background-color: $hover-color;
+			}			
+		}
+		i {
+			$iconname: "social-" + $name;
+			@debug '#{$fill-color}';
+			background-image: sassvg($iconname, $fillcolor: $fill-color);
+		}
+	}
+}
+
+@mixin oShareActionIcon($name, $color:'default', $bg:'default', $hover:'default', $classname: o-share) {
+
+
+	$fill-color: if(($color == "default"), oColorsGetPaletteColor($name), oColorsGetPaletteColor($color));
+
+	$bg-color: if(($bg == "default"), oColorsGetPaletteColor($name), oColorsGetPaletteColor($bg));
+
+	$hover-color: if(($hover == "default"), oColorsGetPaletteColor($name), oColorsGetPaletteColor($hover));
 
 	.#{$classname}__action--#{$name} {
-		a
-		{	
+		a {	
 			background-color: $bg-color;
-			@if ($bghovercolor) {
-				&:hover {
-					background-color: $bg-hover-color;
-				}			
-			}
+			&:hover {
+				background-color: $hover-color;
+			}			
 		}
 		i {
 			$iconname: "social-" + $name;
@@ -175,15 +203,15 @@
 @mixin oShareIcons($set: default) {
 	@if ($set == 'polychrome') {
 		@each $icon in $o-share-icons {
-			@include oShareActionIcon($icon, $color: 'white', $bgcolor: 'grey-tint1', $bghovercolor: $icon);
+			@include oShareActionIcon($icon, $bg: 'grey-tint1', $hover: $icon);
 		}		
 	} @else if ($set == 'duotone') {
 		@each $icon in $o-share-icons {
-			@include oShareActionIcon($icon, $color:'white', $bgcolor: 'grey-tint1', $bghovercolor:'teal-2');
+			@include oShareActionIcon($icon, $bg: 'grey-tint1', $hover:'teal-2');
 		}		
 	} @else if ($set == 'monochrome') {
 		@each $icon in $o-share-icons {
-			@include oShareActionIcon($icon, $color:'pink-tint4', $bgcolor: 'transparent', $bghovercolor:'pink-tint2');
+			@include oShareActionIcon($icon, $color:'pink-tint4', $bg: 'transparent', $hover:'pink-tint2');
 		}		
 	} @else {
 		@each $icon in $o-share-icons {
@@ -191,3 +219,15 @@
 		}		
 	}
 }
+
+// @mixin oShareIconDefault {
+// 	@each $icon in $o-share-icons {
+// 		@include oShareActionIcon($icon);
+// 	}	
+// }
+
+// @mixin oShareIconTint {
+// 	@each $icon in $o-share-icons {
+// 		@include oShareActionIcon($icon, $color:'pink-tint4', $bg: 'transparent', $hover:'pink-tint2');
+// 	}	
+// }

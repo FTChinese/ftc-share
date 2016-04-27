@@ -3,7 +3,7 @@
 
 @import "src/scss/variables";
 @import "src/scss/color-palette";
-//@import 'src/scss/functions';
+@import 'src/scss/functions';
 @import "src/scss/mixins";
 
 @if (not $o-share-is-silent) {

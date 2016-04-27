@@ -4,43 +4,17 @@
 // group2 - $color: 'white', $bgcolor: 'grey-tint1', $bghovercolor: 'teal-2'
 // group3 - $color: 'pink-tint4', $bgcolor: 'transparent', $bghovercolor: 'pink-tint2'
 
-$o-share-icon-palette: (
-	default: (
-		wechat: (icon-color: 'white', bg-color: 'wechat', bg-hover-color: false),
-		weibo: (icon-color: 'white', bg-color: 'weibo', bg-hover-color: false),
-		linkedin: (icon-color: 'white', bg-color: 'linkedin', bg-hover-color: false),
-		facebook: (icon-color: 'white', bg-color: 'facebook', bg-hover-color: false),
-		twitter: (icon-color: 'white', bg-color: 'twitter', bg-hover-color: false)
-		url: (icon-color: 'white', bg-color: 'url', bg-hover-color: false)
-	),
-	group1: (
-		wechat: (icon-color: 'white', bg-color: 'grey-tint1', bg-hover-color: 'wechat'),
-		weibo: (icon-color: 'white', bg-color: 'grey-tint1', bg-hover-color: 'weibo'),
-		linkedin: (icon-color: 'white', bg-color: 'grey-tint1', bg-hover-color: 'linkedin'),
-		facebook: (icon-color: 'white', bg-color: 'grey-tint1', bg-hover-color: 'facebook'),
-		twitter: (icon-color: 'white', bg-color: 'grey-tint1', bg-hover-color: 'twitter'),
-		url: (icon-color: 'white', bg-color: 'grey-tint1', bg-hover-color: 'url'),
-	),
-	group2: (
-		wechat: (icon-color: 'white', bg-color: 'rey-tint1', bg-hover-color: 'teal-2'),
-		weibo: (icon-color: 'white', bg-color: 'rey-tint1', bg-hover-color: 'teal-2'),
-		linedin: (icon-color: 'white', bg-color: 'rey-tint1', bg-hover-color: 'teal-2'),
-		facebook: (icon-color: 'white', bg-color: 'rey-tint1', bg-hover-color: 'teal-2'),
-		twitter: (icon-color: 'white', bg-color: 'rey-tint1', bg-hover-color: 'teal-2'),
-		url: (icon-color: 'white', bg-color: 'rey-tint1', bg-hover-color: 'teal-2'),
-	),
-	group3: (
-		wechat: (icon-color: 'pink-tint4', bg-color: 'transparent',bg-hover-color: 'pink-tint2')
-		weibo: (icon-color: 'pink-tint4', bg-color: 'transparent',bg-hover-color: 'pink-tint2')
-		linkedin: (icon-color: 'pink-tint4', bg-color: 'transparent',bg-hover-color: 'pink-tint2')
-		facebook: (icon-color: 'pink-tint4', bg-color: 'transparent',bg-hover-color: 'pink-tint2')
-		twitter: (icon-color: 'pink-tint4', bg-color: 'transparent',bg-hover-color: 'pink-tint2')
-		url: (icon-color: 'pink-tint4', bg-color: 'transparent',bg-hover-color: 'pink-tint2')
-	)
+$o-share-themes: (
+	teal: (fill: 'white', bg: 'grey-tint1', hover: 'teal-2'),
+	tint: (fill: 'pink-tint4', bg: 'transparent', hover: 'pink-tint2'),
 );
-@function oShareGetPaletteGroup($group, $icon-palette: $o-share-icon-palette) {
-	@return map-get($icon-palette, $group);
+@function oShareGetColorFor($theme, $property) {
+	$props: map-get($o-share-themes, $theme);
+	$color: map-get($props, $property);
+	@return oColorsGetPaletteColor($color);
 }
+
+
 
 @function oShareGetIconPalette($group, $name, $icon-palette: $o-share-icon-palette) {
 	@return map-get(oShareGetPaletteGroup($group, $icon-palette), $name);

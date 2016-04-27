@@ -10,7 +10,8 @@ body {
 	@include oShareActionLink;
 	@include oShareLinkTooltip;
 	.o-share--default {
-		@include oShareIcons;
+		//@include oShareIcons;
+		@include oShareIconFor(wechat, tint);
 	}
 	.o-share--polychrome {
 		@include oShareSetIconSize(40);
